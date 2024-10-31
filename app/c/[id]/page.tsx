@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { type Message, type NewChatMeta } from "@/types/global";
 import { marked } from "marked";
+import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 
 type CompletionData = {
   chat_type: string;
@@ -126,19 +127,20 @@ export default function Home({ params }: { params: { id: string } }) {
       <div className="mt-4">
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="mt-4 flex items-center"
+          className="mt-4 flex items-center bg-gray border rounded-lg px-40" // Styling changes here
         >
           <input
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
             placeholder="Type your message here..."
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-70 pr-2 py-3 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           />
           <button
+            // onClick={sumit}
             type="submit"
             className="bg-blue-500 text-white p-2 rounded-md"
           >
-            Send
+            <ArrowUpCircleIcon className="h-5 w-5" gray-500/>
           </button>
         </form>
       </div>

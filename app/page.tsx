@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { type NewChatMeta } from "@/types/global";
+import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 
 export default function Home() {
   const [model, setModel] = useState("交通");
@@ -51,10 +52,11 @@ export default function Home() {
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           />
           <button
+            // onClick={sumit}
             type="submit"
             className="bg-blue-500 text-white p-2 rounded-md"
           >
-            Send
+            <ArrowUpCircleIcon className="h-5 w-5" gray-500/>
           </button>
         </form>
       </div>
