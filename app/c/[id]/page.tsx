@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { type Message, type NewChatMeta } from "@/types/global";
 import { marked } from "marked";
+import { ChatHeader } from "../../components/ChatHeader";
 
 type CompletionData = {
   chat_type: string;
@@ -104,23 +105,21 @@ export default function Home({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div>
-      <p>{model}</p>
-      <div className="mt-6">
-        <div>
-          {messages.map((message, index) => (
+    <div className="relative w-full h-full flex flex-col overflow-hidden">
+      <div className="relative mt-6 flex-1 overflow-y-scroll overflow-x-clip">
+        <ChatHeader />
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`my-2 p-3 rounded ${message.role === "user" ? "bg-blue-100" : "bg-gray-100"}`}
+          >
+            <strong>{message.role === "user" ? "You" : "Assistant"}:</strong>
             <div
-              key={index}
-              className={`my-2 p-3 rounded ${message.role === "user" ? "bg-blue-100" : "bg-gray-100"}`}
-            >
-              <strong>{message.role === "user" ? "You" : "Assistant"}:</strong>
-              <div
-                className="prose"
-                dangerouslySetInnerHTML={{ __html: marked(message.content) }}
-              />
-            </div>
-          ))}
-        </div>
+              className="prose"
+              dangerouslySetInnerHTML={{ __html: marked(message.content) }}
+            />
+          </div>
+        ))}
       </div>
 
       <div className="mt-4">

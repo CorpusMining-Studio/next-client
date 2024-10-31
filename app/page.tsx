@@ -20,7 +20,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="h-full flex flex-col justify-center items-center">
       <div className="mt-4">
         <label className="block text-sm font-medium text-gray-700">
           請選擇模型
@@ -29,7 +29,7 @@ export default function Home() {
           id="model"
           value={model}
           onChange={(e) => setModel(e.currentTarget.value)}
-          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         >
           {modelOptions.map((model, index) => (
             <option value={model} key={index}>

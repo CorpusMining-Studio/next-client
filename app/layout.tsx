@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/AppSidebar";
 
 export const metadata: Metadata = {
@@ -15,12 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <div className="flex">
+      <body className="h-[100dvh]">
+        <div className="relative flex h-full w-full overflow-hidden">
           <SidebarProvider>
             <AppSidebar />
-            <div className="flex flex-col">
-              <SidebarTrigger />
+            <div className="relative flex flex-col h-full w-full overflow-hidden">
               {children}
             </div>
           </SidebarProvider>
