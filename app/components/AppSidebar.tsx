@@ -5,33 +5,45 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 import { useState } from "react";
 import { PlusIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import { v4 as uuidvd } from "uuid";
+
 type ChatMeta = {
   id: string;
   name: string;
 };
 
 export function AppSidebar() {
-  const [listOfChats] = useState<ChatMeta[]>([
+  const [listOfChats, setListOfChats] = useState<ChatMeta[]>([
     { id: "1", name: "Chat 1" },
     { id: "2", name: "Chat 2" },
     { id: "3", name: "Chat 3" },
   ]);
 
+  // Function to add a new chat
+  function addNewChat() {
+    const newChat = { id: uuidvd(), name: `Chat ${listOfChats.length + 1}` };
+    setListOfChats((prevChats) => [...prevChats, newChat]);
+  }
+
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="p-4 text-xl font-semibold"> Traffic Helper </div>
+    <Sidebar className="bg-customSideBar text-white"> 
+      <SidebarHeader className="bg-customSideBar"> 
+        <SidebarTrigger className="ml-2 h-7 w-7" /> 
+        <div className="p-4 text-xl font-GeistMonoVF "> Traffic Helper </div>
       </SidebarHeader>
-      <SidebarContent>
+      
+      <SidebarContent className="bg-customSideBar"> 
         <SidebarGroup>
-          <div className="flex flex-col p-4 space-y-2">
+          <div className="flex flex-col p-4 space-y-2 font-GeistMonoVF">
             <button
-              className="flex items-center p-2 space-x-2 hover:bg-gray-200 rounded text-blue-600"
+              className="flex items-center p-2 space-x-2 font-GeistMonoVF"
+              onClick={addNewChat}
             >
               <PlusIcon className= "h-5 w-5" />
               <span>New Chat</span>
@@ -49,8 +61,9 @@ export function AppSidebar() {
           </div>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="p-4 text-gray-500 text-sm">© 2024 CorpusMining-Studio </div>
+
+      <SidebarFooter className="bg-customSideBar">
+        <div className="p-4 text-GeistMonoVF"> © 2024 CorpusMining-Studio </div>
       </SidebarFooter>
     </Sidebar>
   );

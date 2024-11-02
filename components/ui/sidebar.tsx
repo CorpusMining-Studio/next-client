@@ -271,6 +271,7 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
+      // 要怎麼改大小qq
       className={cn("h-7 w-7", className)}
       onClick={(event) => {
         onClick?.(event)
@@ -278,7 +279,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      <PanelLeft className="h-8 w-8" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
