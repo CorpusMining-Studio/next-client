@@ -17,15 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex">
-          <SidebarProvider>
-            <AppSidebar />
-            <div className="flex flex-col">
-              <SidebarTrigger />
-              {children}
-            </div>
-          </SidebarProvider>
-        </div>
+          <div className="flex">
+            <SidebarProvider>
+              <AppSidebar />
+              <div className="flex flex-col">
+                <SidebarTrigger />
+                {children}
+              </div>
+            </SidebarProvider>
+          </div>
       </body>
     </html>
   );

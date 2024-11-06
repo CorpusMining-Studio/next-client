@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { type NewChatMeta } from "@/types/global";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
+
 export default function Home() {
   const [model, setModel] = useState("交通");
   const modelOptions = ["交通", "民事"];

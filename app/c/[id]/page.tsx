@@ -112,7 +112,7 @@ export default function Home({ params }: { params: { id: string } }) {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`my-2 p-3 rounded ${message.role === "user" ? "bg-blue-100" : "bg-gray-100"}`}
+              className={`my-2 p-3 rounded ${message.role === "user" ? "bg-black-50" : "bg-gray-100"}`}
             >
               <strong>{message.role === "user" ? "You" : "Assistant"}:</strong>
               <div
@@ -127,18 +127,18 @@ export default function Home({ params }: { params: { id: string } }) {
       <div className="mt-4">
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="mt-4 flex items-center bg-gray border rounded-lg px-40" // Styling changes here
-        >
+          className="mt-4 flex items-center bg-gray-400 border rounded-lg p-4" // Adjust padding here
+          >
           <input
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
             placeholder="Type your message here..."
-            className="mt-1 block w-full pl-70 pr-2 py-3 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-          />
+            className="flex-1 text-center bg-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-l-lg" 
+            />
           <button
             // onClick={sumit}
             type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md"
+            className="bg-blue-300 text-white p-2 rounded-md"
           >
             <ArrowUpCircleIcon className="h-5 w-5" gray-500/>
           </button>
