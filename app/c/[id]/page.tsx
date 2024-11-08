@@ -80,7 +80,6 @@ export default function Home({ params }: { params: { id: string } }) {
         { id: 1, role: "assistant", text: "Loading..." },
       ])
       sessionStorage.removeItem("newchat")
-
       ;(async () => {
         const response = await completeChat({
           chat_type: newChatData.model,
@@ -196,13 +195,13 @@ export default function Home({ params }: { params: { id: string } }) {
   return (
     <div className="relative w-full h-full flex flex-col overflow-hidden">
       {error ? <p className="text-red-500">{error}</p> : <></>}
-      <p>Model: {model}</p>
-      <div className="relative mt-6 flex-1 overflow-y-scroll overflow-x-clip">
+      <div className="relative mt-3 flex-1 overflow-y-scroll overflow-x-clip">
         <ChatHeader />
+        <p>Model: {model}</p>
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`my-2 p-3 rounded ${message.role === "user" ? "bg-blue-100" : "bg-gray-100"}`}
+            className={`my-2 p-3 rounded ${message.role === "user" ? "bg-chat-user" : "bg-chat-assistant"}`}
           >
             <strong>{message.role === "user" ? "You" : "Assistant"}:</strong>
             <div

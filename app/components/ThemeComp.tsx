@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 type ThemeCompProps = {
   children: React.ReactNode
@@ -27,7 +29,10 @@ export function ThemeComp(props: ThemeCompProps) {
   return null
 }
 
-export function ThemeIcon({ className }: { className?: string }) {
+export const ThemeTrigger = React.forwardRef<
+  React.ElementRef<typeof Button>,
+  React.ComponentProps<typeof Button>
+>(({ className, ...props }, ref) => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -44,33 +49,40 @@ export function ThemeIcon({ className }: { className?: string }) {
     return null
   }
 
-  if (theme == "dark") {
+  if (theme === "dark" || theme === "light") {
     return (
-      <button onClick={() => setTheme("light")}>
-        <Moon className={className} />
-      </button>
+      <Button
+        ref={ref}
+        data-sidebar="trigger"
+        variant="ghost"
+        size="icon"
+        className={cn("h-7 w-7", className)}
+        onClick={() => {
+          setTheme(theme === "dark" ? "light" : "dark")
+        }}
+        {...props}
+      >
+        {theme === "dark" ? <Moon /> : <Sun />}
+        <span className="sr-only">Toggle Theme</span>
+      </Button>
     )
   }
 
-  if (theme == "light") {
-    return (
-      <button onClick={() => setTheme("dark")}>
-        <Sun className={className} />
-      </button>
-    )
-  }
-
-  // System default theme
-  if (sysPrefersDarkMode()) {
-    return (
-      <button onClick={() => setTheme("light")}>
-        <Moon className={className} />
-      </button>
-    )
-  }
   return (
-    <button onClick={() => setTheme("dark")}>
-      <Sun className={className} />
-    </button>
+    <Button
+      ref={ref}
+      data-sidebar="trigger"
+      variant="ghost"
+      size="icon"
+      className={cn("h-7 w-7", className)}
+      onClick={() => {
+        setTheme(sysPrefersDarkMode() ? "dark" : "light")
+      }}
+      {...props}
+    >
+      {sysPrefersDarkMode() ? <Moon /> : <Sun />}
+      <span className="sr-only">Toggle Theme</span>
+    </Button>
   )
-}
+})
+ThemeTrigger.displayName = "ThemeTrigger"

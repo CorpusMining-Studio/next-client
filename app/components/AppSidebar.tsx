@@ -37,7 +37,12 @@ export function AppSidebar() {
         return
       }
       const data = await response.json()
-      setRooms(data.message.map((id: string) => ({ id: id, name: id })))
+      setRooms(
+        data.message.map((id: string) => ({
+          id: id,
+          name: id.replace(/_/g, " "),
+        }))
+      )
     })()
   }, [])
 
@@ -50,7 +55,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <Link
             href="/"
-            className="flex h-10 px-2 items-center gap-2 hover:bg-gray-100 rounded"
+            className="flex h-10 px-2 items-center gap-2 hover:bg-accent rounded"
           >
             <HomeIcon className="h-5 w-5 flex-shrink-0" />
             New Chat
@@ -62,9 +67,10 @@ export function AppSidebar() {
               <Link
                 href={"/c/" + chat.id}
                 key={chat.id}
-                className="h-10 px-2 flex items-center hover:bg-gray-100 rounded"
+                className="relative h-10 px-2 flex items-center hover:bg-accent rounded"
               >
-                {chat.name}
+                <span className="whitespace-nowrap overflow-x-hidden">{chat.name}</span>
+                <div className="absolute bottom-0 top-0 right-0 w-8 h-full from-sidebar from-0% to-transparent bg-gradient-to-l"></div>
               </Link>
             ))}
           </nav>

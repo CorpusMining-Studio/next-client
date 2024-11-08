@@ -47,6 +47,8 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --chat-user: 214 95% 93%;
+    --chat-assistant: 220 14% 96%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -81,6 +83,8 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --chat-user: 224 76% 48%;
+    --chat-assistant: 215 28% 17%;
   }
 }
 

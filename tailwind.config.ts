@@ -60,6 +60,10 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        chat: {
+          assistant: "hsl(var(--chat-assistant))",
+          user: "hsl(var(--chat-user))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
