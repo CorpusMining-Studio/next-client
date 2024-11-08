@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import { type Message, type NewChatMeta } from "@/types/global"
 import { marked } from "marked"
 import { ChatHeader } from "../../components/ChatHeader"
+import { useSidebarReloader, ReloadState } from "@/app/components/providers/SidebarReloader"
 
 type CompletionData = {
   chat_type: string
@@ -57,6 +58,7 @@ export default function Home({ params }: { params: { id: string } }) {
   const [error, setError] = useState<string | null>(null)
   const [model, setModel] = useState("")
   const [prompt, setPrompt] = useState("")
+  const { setReload } = useSidebarReloader()
 
   useEffect(() => {
     if (env === "development") {
@@ -109,6 +111,8 @@ export default function Home({ params }: { params: { id: string } }) {
           return
         }
         console.log("Chat data uploaded successfully")
+        setReload(ReloadState.RELOAD)
+        console.log("Sidebar reload triggered")
       })()
     }
 

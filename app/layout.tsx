@@ -3,6 +3,7 @@ import "./globals.css"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "./components/AppSidebar"
 import { ThemeProvider } from "./components/providers/ThemeProvider"
+import { SidebarReloader } from "./components/providers/SidebarReloader"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,12 +20,14 @@ export default function RootLayout({
       <body className="h-[100dvh]">
         <ThemeProvider>
           <div className="relative flex h-full w-full overflow-hidden">
-            <SidebarProvider>
-              <AppSidebar />
-              <div className="relative flex flex-col h-full w-full overflow-hidden">
-                {children}
-              </div>
-            </SidebarProvider>
+            <SidebarReloader>
+              <SidebarProvider>
+                <AppSidebar />
+                <div className="relative flex flex-col h-full w-full overflow-hidden">
+                  {children}
+                </div>
+              </SidebarProvider>
+            </SidebarReloader>
           </div>
         </ThemeProvider>
       </body>

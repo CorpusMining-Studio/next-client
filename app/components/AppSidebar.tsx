@@ -9,6 +9,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar"
 import { HomeIcon } from "lucide-react"
+import { useSidebarReloader, ReloadState } from "./providers/SidebarReloader"
 
 const ES_URL = process.env.NEXT_PUBLIC_ES_URL
 
@@ -21,6 +22,37 @@ export function AppSidebar() {
   const userId = "usertest" // Temporary user id for all users
   const [error, setError] = useState<string | null>(null)
   const [rooms, setRooms] = useState<ChatMeta[]>([])
+  const { reload, setReload } = useSidebarReloader()
+
+  useEffect(() => {
+    if (reload === ReloadState.RELOAD) {
+      setReload(ReloadState.RELOADING)
+      console.log("Reloading sidebar")
+      ;(async () => {
+        // Fetch user data
+        const response = await fetch(ES_URL + "/api/search/userchat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: userId }),
+        })
+        if (!response.ok) {
+          setError("Failed to fetch user data")
+          return
+        }
+        const data = await response.json()
+        setRooms(
+          data.message.map((id: string) => ({
+            id: id,
+            name: id.replace(/_/g, " "),
+          }))
+        )
+        setReload(ReloadState.RELOADED)
+        console.log("Sidebar reloaded")
+      })()
+    }
+  }, [reload])
 
   useEffect(() => {
     ;(async () => {
@@ -69,7 +101,9 @@ export function AppSidebar() {
                 key={chat.id}
                 className="relative h-10 px-2 flex items-center hover:bg-accent rounded"
               >
-                <span className="whitespace-nowrap overflow-x-hidden">{chat.name}</span>
+                <span className="whitespace-nowrap overflow-x-hidden">
+                  {chat.name}
+                </span>
                 <div className="absolute bottom-0 top-0 right-0 w-8 h-full from-sidebar from-0% to-transparent bg-gradient-to-l"></div>
               </Link>
             ))}
