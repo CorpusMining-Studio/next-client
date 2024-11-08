@@ -2,21 +2,36 @@
 import React, { useState } from "react";
 import { type NewChatMeta } from "@/types/global";
 
+const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL;
+
 export default function Home() {
   const [model, setModel] = useState("交通");
   const modelOptions = ["交通", "民事"];
 
   const [prompt, setPrompt] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const response = await fetch(`${MAIN_SERVER_URL}/new_id`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt: prompt }),
+    });
+    if (!response.ok) {
+      alert("Failed to create new chat");
+      return;
+    }
+    let id = await response.json();
+    id = id.message.replace(/ /g, "_");
     const newChatData: NewChatMeta = {
-      id: "new-page-id",
+      id: id,
       prompt: prompt,
       model: model,
     };
     sessionStorage.setItem("newchat", JSON.stringify(newChatData));
-    location.href = "/c/new-page-id";
+    location.href = `/c/${id}`;
   }
 
   return (

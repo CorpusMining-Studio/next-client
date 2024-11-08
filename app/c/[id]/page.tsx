@@ -14,10 +14,12 @@ type CompletionData = {
 };
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL;
+const ES_URL = process.env.NEXT_PUBLIC_ES_URL;
+const env = process.env.NODE_ENV;
 
 // Send request to main server
 async function completeChat(data: CompletionData) {
-  const response = await fetch(`${MAIN_SERVER_URL}/chat-test`, {
+  const response = await fetch(`${MAIN_SERVER_URL}/stream_test`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +32,8 @@ async function completeChat(data: CompletionData) {
 
 async function updateChat(
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>,
-  response: Response
+  response: Response,
+  newId: number
 ) {
   let assistantMessage = "";
   if (response.body) {
@@ -42,28 +45,39 @@ async function updateChat(
       assistantMessage += chunk;
       setMessages((prev) => [
         ...prev.slice(0, -1),
-        { role: "assistant", content: assistantMessage },
+        { id: newId, role: "assistant", text: assistantMessage },
       ]);
     }
+    return assistantMessage;
   }
 }
 
 export default function Home({ params }: { params: { id: string } }) {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [model, setModel] = useState("");
   const [prompt, setPrompt] = useState("");
 
   useEffect(() => {
+    if (env === "development") {
+      // Dev mode load useEffect twice
+      if (sessionStorage.getItem("newchat_processed") === "true") {
+        sessionStorage.removeItem("newchat_processed");
+        return;
+      }
+    }
+
     // Get new chat data from sessionStorage
     const newChatStorage = sessionStorage.getItem("newchat");
     const newChatData: NewChatMeta =
       newChatStorage !== null ? JSON.parse(newChatStorage) : null;
 
-    if (newChatData !== null) {
+    const loadNewChat = () => {
+      console.log("Loading new chat data from sessionStorage");
       setModel(newChatData.model);
       setMessages([
-        { role: "user", content: newChatData.prompt },
-        { role: "assistant", content: "Loading..." },
+        { id: 0, role: "user", text: newChatData.prompt },
+        { id: 1, role: "assistant", text: "Loading..." },
       ]);
       sessionStorage.removeItem("newchat");
 
@@ -72,16 +86,69 @@ export default function Home({ params }: { params: { id: string } }) {
           chat_type: newChatData.model,
           history: [{ id: 0, role: "user", text: newChatData.prompt }],
         });
-        updateChat(setMessages, response);
+        if (!response.ok) {
+          setError("Failed to fetch user data");
+          return;
+        }
+        const botRes = await updateChat(setMessages, response, 1);
+        const res = await fetch(`${ES_URL}/api/upload/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: "usertest",
+            chat_id: params.id,
+            history: [
+              { id: 0, role: "user", text: newChatData.prompt },
+              { id: 1, role: "assistant", text: botRes },
+            ],
+          }),
+        });
+        if (!res.ok) {
+          setError("Failed to upload chat data");
+          return;
+        }
+        console.log("Chat data uploaded successfully");
       })();
+    };
+
+    const loadFromRemote = () => {
+      console.log("Loading chat history from remote");
+      // Fetch chat history from server
+      (async () => {
+        const response = await fetch(`${ES_URL}/api/search/chatroom`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: "usertest", chat_id: params.id }),
+        });
+        const history = await response.json().then((data) => data.history);
+        setMessages(
+          history.map((msg: { role: string; text: string }) => ({
+            role: msg.role,
+            text: msg.text,
+          }))
+        );
+      })();
+    };
+
+    if (newChatStorage !== null && messages.length === 0) {
+      loadNewChat();
+      if (env === "development")
+        sessionStorage.setItem("newchat_processed", "true");
+    } else {
+      if (messages.length !== 0) return;
+      loadFromRemote();
     }
-    // Fetch chat history from server
-    console.log("Fetching chat history from server with id: ", params.id);
+    return;
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const userMessage: Message = { role: "user", content: prompt };
+    const newId = messages.length;
+    const userMessage: Message = { id: newId, role: "user", text: prompt };
     setMessages((prev) => [...prev, userMessage]);
     setPrompt("");
 
@@ -91,21 +158,45 @@ export default function Home({ params }: { params: { id: string } }) {
       history: [...messages, userMessage].map((msg, idx) => ({
         id: idx,
         role: msg.role,
-        text: msg.content,
+        text: msg.text,
       })),
     };
 
     setMessages((prev) => [
       ...prev,
-      { role: "assistant", content: "Loading..." },
+      { id: newId + 1, role: "assistant", text: "Loading..." },
     ]);
 
     const response = await completeChat(data);
-    updateChat(setMessages, response);
+    const botResponse = await updateChat(setMessages, response, newId + 1);
+    (async () => {
+      const response = await fetch(`${ES_URL}/api/upload/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: "usertest",
+          chat_id: params.id,
+          history: [
+            userMessage,
+            { id: newId + 1, role: "assistant", text: botResponse },
+          ],
+        }),
+      });
+      if (!response.ok) {
+        setError("Failed to upload chat data");
+        return;
+      } else {
+        console.log("Chat data uploaded successfully");
+      }
+    })();
   }
 
   return (
     <div className="relative w-full h-full flex flex-col overflow-hidden">
+      {error ? <p className="text-red-500">{error}</p> : <></>}
+      <p>Model: {model}</p>
       <div className="relative mt-6 flex-1 overflow-y-scroll overflow-x-clip">
         <ChatHeader />
         {messages.map((message, index) => (
@@ -116,7 +207,7 @@ export default function Home({ params }: { params: { id: string } }) {
             <strong>{message.role === "user" ? "You" : "Assistant"}:</strong>
             <div
               className="prose"
-              dangerouslySetInnerHTML={{ __html: marked(message.content) }}
+              dangerouslySetInnerHTML={{ __html: marked(message.text) }}
             />
           </div>
         ))}

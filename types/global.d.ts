@@ -1,6 +1,7 @@
 export type Message = {
+  id: number;
   role: string;
-  content: string;
+  text: string;
   retrieved?: string;
 
   // Other info
@@ -12,4 +13,3 @@ export type NewChatMeta = {
   prompt: string;
   model: string;
 };
-
