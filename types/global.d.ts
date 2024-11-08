@@ -1,15 +1,15 @@
 export type Message = {
-  id: number;
-  role: string;
-  text: string;
-  retrieved?: string;
+  id: number
+  role: string
+  text: string
+  retrieved?: string
 
   // Other info
-  references?: string[];
-};
+  references?: string[]
+}
 
 export type NewChatMeta = {
-  id: string;
-  prompt: string;
-  model: string;
-};
+  id: string
+  prompt: string
+  model: string
+}

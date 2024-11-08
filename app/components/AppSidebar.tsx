@@ -1,29 +1,29 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+"use client"
+import React, { useEffect, useState } from "react"
+import Link from "next/link"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-} from "@/components/ui/sidebar";
-import { HomeIcon } from "lucide-react";
+} from "@/components/ui/sidebar"
+import { HomeIcon } from "lucide-react"
 
-const ES_URL = process.env.NEXT_PUBLIC_ES_URL;
+const ES_URL = process.env.NEXT_PUBLIC_ES_URL
 
 type ChatMeta = {
-  id: string;
-  name: string;
-};
+  id: string
+  name: string
+}
 
 export function AppSidebar() {
-  const userId = "usertest"; // Temporary user id for all users
-  const [error, setError] = useState<string | null>(null);
-  const [rooms, setRooms] = useState<ChatMeta[]>([]);
+  const userId = "usertest" // Temporary user id for all users
+  const [error, setError] = useState<string | null>(null)
+  const [rooms, setRooms] = useState<ChatMeta[]>([])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       // Fetch user data
       const response = await fetch(ES_URL + "/api/search/userchat", {
         method: "POST",
@@ -31,15 +31,15 @@ export function AppSidebar() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ user_id: userId }),
-      });
+      })
       if (!response.ok) {
-        setError("Failed to fetch user data");
-        return;
+        setError("Failed to fetch user data")
+        return
       }
-      const data = await response.json();
-      setRooms(data.message.map((id: string) => ({ id: id, name: id })));
-    })();
-  }, []);
+      const data = await response.json()
+      setRooms(data.message.map((id: string) => ({ id: id, name: id })))
+    })()
+  }, [])
 
   return (
     <Sidebar>
@@ -72,5 +72,5 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
-  );
+  )
 }

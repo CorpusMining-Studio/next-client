@@ -1,37 +1,37 @@
-"use client";
-import React, { useState } from "react";
-import { type NewChatMeta } from "@/types/global";
+"use client"
+import React, { useState } from "react"
+import { type NewChatMeta } from "@/types/global"
 
-const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL;
+const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
 export default function Home() {
-  const [model, setModel] = useState("交通");
-  const modelOptions = ["交通", "民事"];
+  const [model, setModel] = useState("交通")
+  const modelOptions = ["交通", "民事"]
 
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState("")
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+    e.preventDefault()
     const response = await fetch(`${MAIN_SERVER_URL}/new_id`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt: prompt }),
-    });
+    })
     if (!response.ok) {
-      alert("Failed to create new chat");
-      return;
+      alert("Failed to create new chat")
+      return
     }
-    let id = await response.json();
-    id = id.message.replace(/ /g, "_");
+    let id = await response.json()
+    id = id.message.replace(/ /g, "_")
     const newChatData: NewChatMeta = {
       id: id,
       prompt: prompt,
       model: model,
-    };
-    sessionStorage.setItem("newchat", JSON.stringify(newChatData));
-    location.href = `/c/${id}`;
+    }
+    sessionStorage.setItem("newchat", JSON.stringify(newChatData))
+    location.href = `/c/${id}`
   }
 
   return (
@@ -74,5 +74,5 @@ export default function Home() {
         </form>
       </div>
     </div>
-  );
+  )
 }
