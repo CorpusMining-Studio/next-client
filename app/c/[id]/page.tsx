@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react"
 import { type Message, type NewChatMeta } from "@/types/global"
 import { marked } from "marked"
 import { ChatHeader } from "../../components/ChatHeader"
-import { useSidebarReloader, ReloadState } from "@/app/components/providers/SidebarReloader"
+import {
+  useSidebarReloader,
+  ReloadState,
+} from "@/app/components/providers/SidebarReloader"
+import { Textarea } from "@/app/components/Textarea"
 
 type CompletionData = {
   chat_type: string
@@ -216,16 +220,14 @@ export default function Home({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 px-3">
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="mt-4 flex items-center"
         >
-          <input
+          <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            placeholder="Type your message here..."
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           />
           <button
             type="submit"

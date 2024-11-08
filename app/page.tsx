@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import { type NewChatMeta } from "@/types/global"
+import { Textarea } from "./components/Textarea"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
@@ -59,11 +60,10 @@ export default function Home() {
           onSubmit={(e) => handleSubmit(e)}
           className="mt-4 flex items-center"
         >
-          <input
+          <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            placeholder="Type your message here..."
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="w-96"
           />
           <button
             type="submit"
