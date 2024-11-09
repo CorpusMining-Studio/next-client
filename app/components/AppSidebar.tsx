@@ -8,7 +8,7 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { Ellipsis, HomeIcon, XIcon } from "lucide-react"
+import { Ellipsis, XIcon } from "lucide-react"
 import { useSidebarReloader, ReloadState } from "./providers/SidebarReloader"
 import {
   DropdownMenu,
@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Alert } from "@/components/ui/alert"
 import { SearchService, DeleteService } from "@/app/api"
+import { HomeIcon } from "@heroicons/react/24/solid"
 
 type ChatMeta = {
   id: string
