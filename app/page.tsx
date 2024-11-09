@@ -14,7 +14,7 @@ export default function Home() {
   const modelOptions = [
     {name: "交通", description: "不適合任何任務", beta: true}, 
     {name: "民事", description: "不適合任何任務", beta: true},
-    {name: "Gpt3", description: "適合大多數任務"}
+    {name: "GPT3", description: "適合大多數任務"}
   ]
   const toggleDropdown = () => setDropdown(!dropdown)
   const handleSelectedModel = (selectedModel: string) => {
@@ -48,10 +48,10 @@ export default function Home() {
 
   return (
     <div className="relative h-full flex flex-col justify-center items-center">
-      <div className="absolute items-center space-x-1 top-4 left-4 text-gray-200 text-lg">
+      <div className="absolute items-center space-x-1 top-4 left-4 text-gray-200 text-lg font-semibold">
       <button
             onClick={toggleDropdown}
-            className="flex items-center px-4 py-2 text-white rounded-md text-lg focus:outline-none"
+            className="flex items-center px-4 py-2 text-white rounded-md text-lg focus:outline-none hover:bg-zinc-900"
           >
             {model}
             <ChevronDownIcon className="h-5 w-5 text-gray-400 ml-2" />
@@ -84,7 +84,8 @@ export default function Home() {
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 text-center">
+        <h1 className="text-4xl font-semibold text-white mb-12 select-transparent">🧑🏼‍⚖️Your best Traffic Helper!</h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="mt-4 flex items-center rounded-full bg-gray-800 px-4 py-2"
@@ -92,7 +93,7 @@ export default function Home() {
           <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            className="w-96"
+            className="w-[600px]"
           />
           <button type="submit">
             <ArrowUpCircleIcon className="h-10 w-10 gray ml-2" />

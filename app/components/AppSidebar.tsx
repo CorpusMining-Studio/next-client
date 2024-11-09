@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Alert } from "@/components/ui/alert"
 import { SearchService, DeleteService } from "@/app/api"
 import { HomeIcon } from "@heroicons/react/24/solid"
+// import { SidebarTrigger } from "@/components/ui/sidebar"
 
 type ChatMeta = {
   id: string
@@ -87,7 +88,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <p className="text-lg font-semibold">Chats</p>
+        <h1 className="text-lg font-semibold"> Chat history</h1>
         {error ? (
           <Alert
             variant="destructive"

@@ -14,7 +14,7 @@ const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
 // Send request to main server
 export async function completeChat(data: CompletionData) {
-  const response = await fetch(`${MAIN_SERVER_URL}/stream_test`, {
+  const response = await fetch(`${MAIN_SERVER_URL}/chat-test`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
