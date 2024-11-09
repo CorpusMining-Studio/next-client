@@ -1,6 +1,7 @@
 const ES_URL = process.env.NEXT_PUBLIC_ES_URL
 
 type DeleteResponse = {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   data: any
   error: null | string
 }

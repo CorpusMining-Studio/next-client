@@ -53,6 +53,7 @@ export function AppSidebar() {
           return
         }
         setRooms(
+          /* eslint-disable @typescript-eslint/no-explicit-any */
           data.message.map((props: any) => ({
             id: props.chat_room,
             name: props.chat_room.replace(/_/g, " "),
@@ -73,6 +74,7 @@ export function AppSidebar() {
         return
       }
       setRooms(
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         data.message.map((props: any) => ({
           id: props.chat_room,
           name: props.chat_room.replace(/_/g, " "),
