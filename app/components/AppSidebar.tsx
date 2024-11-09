@@ -18,8 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Alert } from "@/components/ui/alert"
-
-const ES_URL = process.env.NEXT_PUBLIC_ES_URL
+import { SearchService, DeleteService } from "@/app/api"
 
 type ChatMeta = {
   id: string
@@ -33,15 +32,9 @@ export function AppSidebar() {
   const { reload, setReload } = useSidebarReloader()
 
   async function deleteChat(id: string) {
-    const response = await fetch(ES_URL + "/api/delete/chat", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id: "usertest", chat_id: id }),
-    })
-    if (!response.ok) {
-      setError("Failed to delete chat")
+    const { error } = await DeleteService.deleteChat(userId, id)
+    if (error) {
+      setError(error)
       return
     }
     console.log("Chat deleted")
@@ -54,22 +47,15 @@ export function AppSidebar() {
       console.log("Reloading sidebar")
       ;(async () => {
         // Fetch user data
-        const response = await fetch(ES_URL + "/api/search/userchat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: userId }),
-        })
-        if (!response.ok) {
-          setError("Failed to fetch user data")
+        const { data, error } = await SearchService.searchUserChat(userId)
+        if (error) {
+          setError(error)
           return
         }
-        const data = await response.json()
         setRooms(
-          data.message.map((id: string) => ({
-            id: id,
-            name: id.replace(/_/g, " "),
+          data.message.map((props: any) => ({
+            id: props.chat_room,
+            name: props.chat_room.replace(/_/g, " "),
           }))
         )
         setReload(ReloadState.RELOADED)
@@ -81,22 +67,15 @@ export function AppSidebar() {
   useEffect(() => {
     ;(async () => {
       // Fetch user data
-      const response = await fetch(ES_URL + "/api/search/userchat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user_id: userId }),
-      })
-      if (!response.ok) {
-        setError("Failed to fetch user data")
+      const { data, error } = await SearchService.searchUserChat(userId)
+      if (error) {
+        setError(error)
         return
       }
-      const data = await response.json()
       setRooms(
-        data.message.map((id: string) => ({
-          id: id,
-          name: id.replace(/_/g, " "),
+        data.message.map((props: any) => ({
+          id: props.chat_room,
+          name: props.chat_room.replace(/_/g, " "),
         }))
       )
     })()
