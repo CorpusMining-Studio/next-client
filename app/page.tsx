@@ -2,14 +2,21 @@
 import React, { useState } from "react"
 import { type NewChatMeta } from "@/types/global"
 import { Textarea } from "./components/Textarea"
+import { CircleArrowUp, CircleCheck } from "lucide-react"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu" // Adjust the path
+import { Button } from "@/components/ui/button"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
 export default function Home() {
-  const [model, setModel] = useState("交通")
-  const modelOptions = ["交通", "民事"]
-
   const [prompt, setPrompt] = useState("")
+  const [model, setModel] = useState("交通")
+
+  const modelOptions = [
+    { name: "交通", description: "不適合任何任務", beta: true },
+    { name: "民事", description: "不適合任何任務", beta: true },
+    { name: "GPT3", description: "適合大多數任務" },
+  ]
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -18,7 +25,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt: prompt }),
+      body: JSON.stringify({ prompt: prompt}),
     })
     if (!response.ok) {
       alert("Failed to create new chat")
@@ -36,41 +43,55 @@ export default function Home() {
   }
 
   return (
-    <div className="h-full flex flex-col justify-center items-center">
-      <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700">
-          請選擇模型
-        </label>
-        <select
-          id="model"
-          value={model}
-          onChange={(e) => setModel(e.currentTarget.value)}
-          className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-        >
-          {modelOptions.map((model, index) => (
-            <option value={model} key={index}>
+    <div className="relative h-full flex flex-col justify-center items-center">
+      <div className="absolute items-center space-x-1 top-4 left-4 text-gray-200 text-lg font-semibold">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center px-4 py-2 rounded-md text-lg focus:outline-none hover:bg-zinc-900">
               {model}
-            </option>
-          ))}
-        </select>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-64 rounded-lg shadow-lg p-3 text-white">
+            {modelOptions.map((option, index) => (
+              <DropdownMenuItem
+                key={index}
+                onClick={() => setModel(option.name)}
+                className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+              >
+                <div>
+                  <div className="text-base">{option.name}</div>
+                  <div className="text-sm text-gray-400">
+                    {option.description}
+                    {option.beta && (
+                      <span className="ml-2 px-1 py-0.5 text-xs bg-gray-600 rounded text-white">
+                        BETA
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {model === option.name && <CircleCheck className="h-5 w-5 text-white" />}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 text-center">
+        <h1 className="text-4xl font-semibold text-white mb-12 select-transparent">
+          🧑🏼‍⚖️Your Best Traffic Helper!
+        </h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="mt-4 flex items-center"
+          className="mt-4 flex items-center rounded-full bg-gray-800 px-4 py-2"
         >
           <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            className="w-96"
+            className="max-96"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md"
-          >
-            Send
-          </button>
+          <Button type="submit" size="icon">
+            <CircleArrowUp className="h-5 w-5 gray" />
+          </Button>
         </form>
       </div>
     </div>
