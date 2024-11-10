@@ -45,8 +45,8 @@ export const Textarea = ({
       ref={textAreaRef}
       placeholder="Type your message here..."
       className={cn(
-        "m-2 p-1 w-full resize-none min-h-20 max-h-56 sm:text-sm rounded-md",
-        "border-2 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500",
+        "m-2 p-1 w-full resize-none min-h-[20px] max-h-[45px] text-lg rounded-md",
+        "border-2 border-gray-300 focus:outline-none items-center",
         className
       )}
       {...props}
