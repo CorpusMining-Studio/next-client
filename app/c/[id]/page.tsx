@@ -57,6 +57,7 @@ export default function Home({ params }: { params: { id: string } }) {
           JSON.stringify({
             user_id: "usertest",
             chat_id: params.id,
+            chat_type: newChatData.model,
             history: [
               { id: 0, role: "user", text: newChatData.prompt },
               { id: 1, role: "assistant", text: botRes },
@@ -86,6 +87,7 @@ export default function Home({ params }: { params: { id: string } }) {
           setError(error)
           return
         }
+        setModel(data.chat_type)
         setMessages(
           data.history.map((msg: { role: string; text: string }) => ({
             role: msg.role,
