@@ -11,7 +11,7 @@ import { Textarea } from "@/app/components/Textarea"
 import { sleep } from "@/lib/utils"
 import { SearchService, UploadService } from "@/app/api"
 import { completeChat, updateChat } from "./helper"
-import { ArrowUpCircleIcon } from "@heroicons/react/24/solid"
+import { CircleArrowUp, CircleCheck} from "lucide-react"
 const env = process.env.NODE_ENV
 
 export default function Home({ params }: { params: { id: string } }) {
@@ -179,7 +179,7 @@ export default function Home({ params }: { params: { id: string } }) {
             onInput={(e) => setPrompt(e.currentTarget.value)}
           />
           <button type="submit">
-            <ArrowUpCircleIcon className="h-10 w-10 gray ml-2" />
+            <CircleArrowUp className="h-10 w-10 gray ml-2" />
           </button>
         </form>
       </div>

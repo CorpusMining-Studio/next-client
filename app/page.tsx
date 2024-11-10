@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { type NewChatMeta } from "@/types/global"
 import { Textarea } from "./components/Textarea"
-import { ArrowUpCircleIcon, ChevronDownIcon, CheckIcon } from "@heroicons/react/24/solid"
+import { CircleArrowUp, ChevronDown, CircleCheck} from "lucide-react"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
@@ -54,7 +54,7 @@ export default function Home() {
             className="flex items-center px-4 py-2 text-white rounded-md text-lg focus:outline-none hover:bg-zinc-900"
           >
             {model}
-            <ChevronDownIcon className="h-5 w-5 text-gray-400 ml-2" />
+            <ChevronDown className="h-5 w-5 text-gray-400 ml-2" />
           </button>
           {dropdown &&(
             <div className= "absolute mt-2 w-64 bg-gray-900 rounded-lg shadow-lg p-3 text-white">
@@ -76,7 +76,7 @@ export default function Home() {
                   </div>
                 </div>
                 {model === option.name && (
-                  <CheckIcon className="h-5 w-5 text-white" />
+                  <CircleCheck className="h-5 w-5 text-white" />
                 )}
               </div>
             ))}
@@ -85,7 +85,7 @@ export default function Home() {
       </div>
 
       <div className="mt-4 text-center">
-        <h1 className="text-4xl font-semibold text-white mb-12 select-transparent">🧑🏼‍⚖️Your best Traffic Helper!</h1>
+        <h1 className="text-4xl font-semibold text-white mb-12 select-transparent">🧑🏼‍⚖️Your Best Traffic Helper!</h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="mt-4 flex items-center rounded-full bg-gray-800 px-4 py-2"
@@ -96,7 +96,7 @@ export default function Home() {
             className="w-[600px]"
           />
           <button type="submit">
-            <ArrowUpCircleIcon className="h-10 w-10 gray ml-2" />
+            <CircleArrowUp className="h-10 w-10 gray ml-2" />
           </button>
         </form>
         
