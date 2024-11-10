@@ -47,11 +47,11 @@ export default function Home() {
       <div className="absolute items-center space-x-1 top-4 left-4 text-gray-200 text-lg font-semibold">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center px-4 py-2 text-white rounded-md text-lg focus:outline-none hover:bg-zinc-900">
+            <button className="flex items-center px-4 py-2 rounded-md text-lg focus:outline-none hover:bg-zinc-900">
               {model}
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-64 bg-gray-900 rounded-lg shadow-lg p-3 text-white">
+          <DropdownMenuContent className="w-64 rounded-lg shadow-lg p-3 text-white">
             {modelOptions.map((option, index) => (
               <DropdownMenuItem
                 key={index}
