@@ -25,7 +25,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt: prompt, model: model }),
+      body: JSON.stringify({ prompt: prompt}),
     })
     if (!response.ok) {
       alert("Failed to create new chat")
@@ -87,7 +87,7 @@ export default function Home() {
           <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            className="w-[600px]"
+            className="max-96"
           />
           <Button type="submit" size="icon">
             <CircleArrowUp className="h-5 w-5 gray" />

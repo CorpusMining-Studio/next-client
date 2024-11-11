@@ -86,7 +86,6 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <h1 className="text-lg font-semibold">Chat History</h1>
         {error ? (
           <Alert
             variant="destructive"
