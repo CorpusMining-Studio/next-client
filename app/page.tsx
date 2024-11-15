@@ -3,7 +3,12 @@ import React, { useState } from "react"
 import { type NewChatMeta } from "@/types/global"
 import { Textarea } from "./components/Textarea"
 import { CircleArrowUp, CircleCheck } from "lucide-react"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu" // Adjust the path
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
@@ -25,7 +30,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt: prompt}),
+      body: JSON.stringify({ prompt: prompt }),
     })
     if (!response.ok) {
       alert("Failed to create new chat")
@@ -69,7 +74,9 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-                {model === option.name && <CircleCheck className="h-5 w-5 text-white" />}
+                {model === option.name && (
+                  <CircleCheck className="h-5 w-5 text-white" />
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
