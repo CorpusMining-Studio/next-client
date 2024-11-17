@@ -52,7 +52,7 @@ export default function Home() {
       <div className="absolute items-center space-x-1 top-4 left-4 text-lg font-semibold">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="px-4 py-2 rounded-md cursor-pointer text-center hover:bg-gray-200 dark:hover:bg-gray-700">
+            <div className="px-4 py-2 rounded-md cursor-pointer text-center hover:dropMenu">
               {model}
             </div>
           </DropdownMenuTrigger>
@@ -61,7 +61,7 @@ export default function Home() {
               <DropdownMenuItem
                 key={index}
                 onClick={() => setModel(option.name)}
-                className="flex items-center justify-between px-3 py-2 rounded-md  cursor-pointer"
+                className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer"
               >
                 <div>
                   <div className="text-base">{option.name}</div>
