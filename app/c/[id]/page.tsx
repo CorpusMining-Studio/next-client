@@ -12,7 +12,11 @@ import { sleep } from "@/lib/utils"
 import { SearchService, UploadService } from "@/app/api"
 import { completeChat, updateChat } from "./helper"
 import { Button } from "@/components/ui/button"
-import { CircleArrowUp, Bot, CircleUserRound, MessageSquareQuote } from "lucide-react"
+import {
+  CircleArrowUp,
+  CircleUserRound,
+  MessageSquareQuote,
+} from "lucide-react"
 const env = process.env.NODE_ENV
 
 export default function Home({ params }: { params: { id: string } }) {
@@ -157,6 +161,7 @@ export default function Home({ params }: { params: { id: string } }) {
       {error ? <p className="text-red-500">{error}</p> : <></>}
       <div className="relative mt-3 flex-1 overflow-y-scroll overflow-x-clip">
         <ChatHeader />
+        <p>Model: {model}</p>
         {messages.map((message, index) => (
           <div
             key={index}
@@ -164,9 +169,9 @@ export default function Home({ params }: { params: { id: string } }) {
           >
             <strong className="mr-1">
               {message.role === "user" ? (
-                  <CircleUserRound className="h-6 w-6 text-blue-500" />
-                ) : (
-                  <MessageSquareQuote className="h-6 w-6 text-green-600" />
+                <CircleUserRound className="h-6 w-6 text-blue-500" />
+              ) : (
+                <MessageSquareQuote className="h-6 w-6 text-green-600" />
               )}
             </strong>
             <div

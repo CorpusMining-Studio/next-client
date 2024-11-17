@@ -74,9 +74,7 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-                {model === option.name && (
-                  <CircleCheck className="h-5 w-5" />
-                )}
+                {model === option.name && <CircleCheck className="h-5 w-5" />}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -85,7 +83,7 @@ export default function Home() {
 
       <div className="mt-2 text-center">
         <h1 className="text-4xl font-semibold mb-2 select-transparent">
-          🧑🏼‍⚖️Your Best Traffic Helper!
+          Your Best Traffic Helper!
         </h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
