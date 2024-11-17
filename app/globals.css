@@ -10,6 +10,9 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .dropMenu:hover {
+    background-color: hsl(var(--accent));
+  }
 }
 
 @layer base {

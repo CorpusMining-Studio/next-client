@@ -49,19 +49,19 @@ export default function Home() {
 
   return (
     <div className="relative h-full flex flex-col justify-center items-center">
-      <div className="absolute items-center space-x-1 top-4 left-4 text-gray-200 text-lg font-semibold">
+      <div className="absolute items-center space-x-1 top-4 left-4 text-lg font-semibold">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center px-4 py-2 rounded-md text-lg focus:outline-none hover:bg-zinc-900">
+            <div className="px-4 py-2 rounded-md cursor-pointer text-center hover:dropMenu">
               {model}
-            </button>
+            </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-64 rounded-lg shadow-lg p-3 text-white">
+          <DropdownMenuContent className="w-64 rounded-lg shadow-lg p-3 ">
             {modelOptions.map((option, index) => (
               <DropdownMenuItem
                 key={index}
                 onClick={() => setModel(option.name)}
-                className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer"
               >
                 <div>
                   <div className="text-base">{option.name}</div>
@@ -75,7 +75,7 @@ export default function Home() {
                   </div>
                 </div>
                 {model === option.name && (
-                  <CircleCheck className="h-5 w-5 text-white" />
+                  <CircleCheck className="h-5 w-5" />
                 )}
               </DropdownMenuItem>
             ))}
@@ -83,18 +83,18 @@ export default function Home() {
         </DropdownMenu>
       </div>
 
-      <div className="mt-4 text-center">
-        <h1 className="text-4xl font-semibold text-white mb-12 select-transparent">
+      <div className="mt-2 text-center">
+        <h1 className="text-4xl font-semibold mb-2 select-transparent">
           🧑🏼‍⚖️Your Best Traffic Helper!
         </h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="mt-4 flex items-center rounded-full bg-gray-800 px-4 py-2"
+          className="mt-5 flex items-center rounded-full px-1 py-1"
         >
           <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
-            className="max-96"
+            className="h-5"
           />
           <Button type="submit" size="icon">
             <CircleArrowUp className="h-5 w-5 gray" />
