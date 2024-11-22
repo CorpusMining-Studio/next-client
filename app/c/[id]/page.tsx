@@ -157,7 +157,7 @@ export default function Home({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="relative w-full h-full flex flex-col overflow-hidden">
+    <div className="relative w-full h-full flex flex-col overflow-hidden px-40">
       {error ? <p className="text-red-500">{error}</p> : <></>}
       <div className="relative mt-3 flex-1 overflow-y-scroll overflow-x-clip">
         <ChatHeader />
@@ -182,7 +182,7 @@ export default function Home({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-      <div className="mt-4 px-3">
+      <div className="mt-0 px-39">
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="mt-4 flex items-center"
@@ -195,8 +195,8 @@ export default function Home({ params }: { params: { id: string } }) {
              focus:ring-2 focus:ring-gray-400 
              dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-blue-400"
           />
-          <Button type="submit" size="icon" className="rounded-full">
-            <CircleArrowUp className="h-10 w-10 gray" />
+          <Button type="submit" size="sm" className="rounded-full">
+            <CircleArrowUp className="h-5 w-5 " />
           </Button>
         </form>
       </div>
