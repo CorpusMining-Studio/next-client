@@ -190,8 +190,12 @@ export default function Home({ params }: { params: { id: string } }) {
           <Textarea
             value={prompt}
             onInput={(e) => setPrompt(e.currentTarget.value)}
+            className="w-full h-32 text-2xl p-4 rounded-md border resize-none shadow-sm
+             bg-gray-100 text-gray-700 border-gray-300 focus:outline-none 
+             focus:ring-2 focus:ring-gray-400 
+             dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-blue-400"
           />
-          <Button type="submit" size="icon">
+          <Button type="submit" size="icon" className="rounded-full">
             <CircleArrowUp className="h-10 w-10 gray" />
           </Button>
         </form>

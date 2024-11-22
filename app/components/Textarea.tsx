@@ -46,7 +46,7 @@ export const Textarea = ({
       placeholder="Type your message here..."
       className={cn(
         "m-2 p-1 w-full resize-none min-h-20 max-h-56 sm:text-sm rounded-md",
-        "border-2 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500",
+        "border-2 border-gray-300 focus:outline-none ",
         className
       )}
       {...props}
