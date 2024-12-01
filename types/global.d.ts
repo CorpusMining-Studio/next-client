@@ -10,6 +10,7 @@ export type Message = {
 
 export type NewChatMeta = {
   id: string
+  name: string
   prompt: string
   model: string
 }

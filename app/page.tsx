@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { uuid } from "@/lib/utils"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
@@ -36,15 +37,15 @@ export default function Home() {
       alert("Failed to create new chat")
       return
     }
-    let id = await response.json()
-    id = id.message.replace(/ /g, "_")
+    const name = await response.json()
     const newChatData: NewChatMeta = {
-      id: id,
+      id: uuid(),
+      name: name.message,
       prompt: prompt,
       model: model,
     }
     sessionStorage.setItem("newchat", JSON.stringify(newChatData))
-    location.href = `/c/${id}`
+    location.href = `/c/${newChatData.id}`
   }
 
   return (

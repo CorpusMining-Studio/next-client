@@ -63,6 +63,7 @@ export default function Home({ params }: { params: { id: string } }) {
             user_id: "usertest",
             chat_id: params.id,
             chat_type: newChatData.model,
+            chat_name: newChatData.name,
             history: [
               { id: 0, role: "user", text: newChatData.prompt },
               { id: 1, role: "assistant", text: botRes },
