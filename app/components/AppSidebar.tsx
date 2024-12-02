@@ -20,6 +20,13 @@ import { Button } from "@/components/ui/button"
 import { Alert } from "@/components/ui/alert"
 import { SearchService, DeleteService, UpdateService } from "@/app/api"
 import { Input } from "@/components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 type ChatMeta = {
   id: string
@@ -42,6 +49,17 @@ export function AppSidebar() {
   const [renaming, setRenaming] = useState<string>("")
   const [rooms, setRooms] = useState<ChatMeta[]>([])
   const { reload, setReload } = useSidebarReloader()
+
+  const [shareOpen, setShareOpen] = useState(false)
+  const [shareUrl, setShareUrl] = useState("")
+  const [hostname, setHostname] = useState<string>("")
+  const [copy, setCopy] = useState<"Copied" | "Copy">("Copy")
+
+  useEffect(() => {
+    const href = window.location.hostname
+    const port = window.location.port
+    setHostname("http://" + href + ":" + port)
+  }, [])
 
   async function deleteChat(id: string) {
     const { error } = await DeleteService.deleteChat(userId, id)
@@ -179,7 +197,14 @@ export function AppSidebar() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="" align="start">
-                      <DropdownMenuItem>Share</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setShareOpen(true)
+                          setShareUrl(hostname + "/share/" + chat.id)
+                        }}
+                      >
+                        Share
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => setRenaming(chat.id + "-rename")}
                       >
@@ -200,6 +225,33 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />
+
+      <Dialog
+        open={shareOpen}
+        onOpenChange={() => setShareOpen((prev) => !prev)}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Share link</DialogTitle>
+            <DialogDescription>
+              Anyone who has this link will be able to view this.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <Input id="link" defaultValue={shareUrl} readOnly />
+            <Button
+              id="copy"
+              onClick={() => {
+                navigator.clipboard.writeText(shareUrl)
+                setCopy("Copied")
+                setTimeout(() => setCopy("Copy"), 2000)
+              }}
+            >
+              {copy}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Sidebar>
   )
 }
