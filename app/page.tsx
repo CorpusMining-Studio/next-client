@@ -9,6 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { uuid } from "@/lib/utils"
 
@@ -19,9 +20,13 @@ export default function Home() {
   const [model, setModel] = useState("交通")
 
   const modelOptions = [
-    { name: "交通", description: "不適合任何任務", beta: true },
-    { name: "民事", description: "不適合任何任務", beta: true },
-    { name: "GPT3", description: "適合大多數任務" },
+    { name: "交通", desc: "交通意外、交通糾紛", value: "交通" },
+    {
+      name: "民事",
+      desc: "民事案件（財產糾紛、身份關係糾紛...）",
+      value: "民事",
+    },
+    { name: "GPT4", desc: "日常任務", value: "gpt-4o-mini" },
   ]
 
   async function handleSubmit(e: React.FormEvent) {
@@ -50,7 +55,8 @@ export default function Home() {
 
   return (
     <div className="relative h-full flex flex-col justify-center items-center">
-      <div className="absolute items-center space-x-1 top-4 left-4 text-lg font-semibold">
+      <div className="absolute flex flex-row items-center space-x-1 top-4 left-4 text-lg font-semibold">
+        <SidebarTrigger />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="px-4 py-2 rounded-md cursor-pointer text-center hover:dropMenu">
@@ -66,14 +72,7 @@ export default function Home() {
               >
                 <div>
                   <div className="text-base">{option.name}</div>
-                  <div className="text-sm text-gray-400">
-                    {option.description}
-                    {option.beta && (
-                      <span className="ml-2 px-1 py-0.5 text-xs bg-gray-600 rounded text-white">
-                        BETA
-                      </span>
-                    )}
-                  </div>
+                  <div className="text-sm text-gray-400">{option.desc}</div>
                 </div>
                 {model === option.name && <CircleCheck className="h-5 w-5" />}
               </DropdownMenuItem>

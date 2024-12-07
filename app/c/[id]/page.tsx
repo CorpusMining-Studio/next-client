@@ -123,7 +123,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
     // Prepare data for API request
     const data = {
-      chat_type: "交通",
+      chat_type: model,
       history: [...messages, userMessage].map((msg, idx) => ({
         id: idx,
         role: msg.role,
