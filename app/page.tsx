@@ -15,19 +15,24 @@ import { uuid } from "@/lib/utils"
 
 const MAIN_SERVER_URL = process.env.NEXT_PUBLIC_MAIN_SERVER_URL
 
+type ModelOption = {
+  name: string
+  desc: string
+  value: string
+}
+const modelOptions: ModelOption[] = [
+  { name: "交通", desc: "交通意外、交通糾紛", value: "交通" },
+  {
+    name: "民事",
+    desc: "民事案件（財產糾紛、身份關係糾紛...）",
+    value: "民事",
+  },
+  { name: "GPT4", desc: "日常任務", value: "gpt-4o-mini" },
+]
+
 export default function Home() {
   const [prompt, setPrompt] = useState("")
-  const [model, setModel] = useState("交通")
-
-  const modelOptions = [
-    { name: "交通", desc: "交通意外、交通糾紛", value: "交通" },
-    {
-      name: "民事",
-      desc: "民事案件（財產糾紛、身份關係糾紛...）",
-      value: "民事",
-    },
-    { name: "GPT4", desc: "日常任務", value: "gpt-4o-mini" },
-  ]
+  const [model, setModel] = useState<ModelOption>(modelOptions[0])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -47,7 +52,7 @@ export default function Home() {
       id: uuid(),
       name: name.message,
       prompt: prompt,
-      model: model,
+      model: model.value,
     }
     sessionStorage.setItem("newchat", JSON.stringify(newChatData))
     location.href = `/c/${newChatData.id}`
@@ -60,21 +65,23 @@ export default function Home() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="px-4 py-2 rounded-md cursor-pointer text-center hover:dropMenu">
-              {model}
+              {model.name}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-64 rounded-lg shadow-lg p-3 ">
             {modelOptions.map((option, index) => (
               <DropdownMenuItem
                 key={index}
-                onClick={() => setModel(option.name)}
+                onClick={() => setModel(option)}
                 className="flex items-center justify-between px-3 py-2 rounded-md cursor-pointer"
               >
                 <div>
                   <div className="text-base">{option.name}</div>
                   <div className="text-sm text-gray-400">{option.desc}</div>
                 </div>
-                {model === option.name && <CircleCheck className="h-5 w-5" />}
+                {model.name === option.name && (
+                  <CircleCheck className="h-5 w-5" />
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
